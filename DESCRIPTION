@@ -1,0 +1,13 @@
+Package: episnips
+Title: episnips
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Catherine",
+           family = "Eisenhauer",
+           role = c("aut", "cre"),
+           email = "caeisenhauer@gmail.com")
+Description: episnips provides helper functions for common epi tasks. or, at least, tasks that were common enough for me.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.2
