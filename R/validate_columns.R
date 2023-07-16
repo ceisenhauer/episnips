@@ -9,6 +9,8 @@
 #'   items 'date', 'numeric', and 'character' will have their type validated. In the case of a 
 #'   named vector, anything that is not meant to be 'date', 'numeric', or 'character' can be placed
 #'   in an element named 'other' (or something else, the name is arbitrary).
+#' @param select `bool` If TRUE, only the columns specified in `cols` will be returned. All columns
+#'   will be returned otherwise.
 #'
 #' @examples
 #' df <- data.frame(date = c('2022-01-01', '2022-02-01'), cases = c('152', '296'), deaths = c(1, 4))
@@ -18,7 +20,7 @@
 #' @importFrom dplyr %>% mutate
 #' @importFrom rlang .data
 #' @export
-validate_columns <- function(df, cols) {
+validate_columns <- function(df, cols, select = TRUE) {
 
   # create columns that don't exist
   col_values <- unname(unlist(cols))
@@ -27,13 +29,6 @@ validate_columns <- function(df, cols) {
 
   # if column type informtaion is available, makes sure all columns correspond correctly
   if (!is.null(names(cols))) {
-
-    # not sure if i actually want this, maybe people can have weird column types and you don't
-    # want the function to auto delete those ?
-    #if (!all(names(cols) %in% c('date', 'numeric', 'character', 'boolean'))) {
-      #stop(paste0('unknown column types requested, please select exclusively from: date, numeric, '
-           #'character, and boolean'))
-    #}
 
     # TODO: add intersect check to make sure each column has only one type characterization
 
@@ -54,6 +49,10 @@ validate_columns <- function(df, cols) {
     if ('character' %in% names(cols)) {
       df[ , cols$character] <- sapply(df[ , cols$character], as.character)
     }
+  }
+
+  if (select) {
+    df <- df[ , col_values]
   }
 
   return(df)
